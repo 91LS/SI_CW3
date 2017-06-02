@@ -1,4 +1,4 @@
-class Distance:
+class SystemObject:
     def __init__(self, descriptors, decision):
         self.descriptors = descriptors
         self.decision = decision

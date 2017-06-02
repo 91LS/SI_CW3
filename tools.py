@@ -10,10 +10,11 @@ def get_system_objects(system_file):
     for line in system_file:
         system_object = line.strip().split(' ')
         float_object = list(map(float, system_object[:-1]))
-        objects.append(classes.Distance(float_object, system_object[-1]))
+        objects.append(classes.SystemObject(float_object, system_object[-1]))
     return objects
 
 
+# K-NN functions. <-----------------------------------------------------------------------------------------------------
 def classify_objects(measure, trn_system, tst_system, k):
     """Classify tst_system by trn_system."""
     for tst_object in tst_system:
@@ -166,14 +167,14 @@ def get_data(class_objects, tst_system):
             grabbed += 1
             if class_object.classifier_decision == class_object.decision:
                 correct += 1
-    acc = correct/grabbed if grabbed != 0 else "No one is grabbed"
+    acc = correct/grabbed if grabbed != 0 else math.inf
     cov = grabbed/class_length
 
     others_objects = [other for other in tst_system if other not in class_objects]
     for other in others_objects:
         if other.classifier_decision == class_decision:
             wrong += 1
-    tpr = correct/(correct + wrong)
+    tpr = correct/(correct + wrong) if correct + wrong != 0 else math.inf
 
     return [class_length, acc, cov, tpr]
 
